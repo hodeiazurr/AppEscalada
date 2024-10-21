@@ -2,7 +2,7 @@
 
 ## Descripción
 
-Esta aplicación genera un plan de entrenamiento personalizado para escaladores basado en su nivel de fuerza y resistencia. Utiliza datos aleatorios para las pruebas físicas, tales como fuerza de agarre, fuerza de los dedos, resistencia aeróbica y anaeróbica, y sugiere un entrenamiento semanal personalizado. Los planes varían dependiendo de la edad, nivel de escalada y preferencias del usuario.
+Esta aplicación genera un plan de entrenamiento personalizado para escaladores basado en su nivel de fuerza y resistencia. Utiliza datos aleatorios (para darle utilidad a la librería numpy, en la realidad tendrían que pasar por una serie de pruebas físicas para sacar los dichos datos) para las pruebas físicas, tales como fuerza de agarre, fuerza de los dedos, resistencia aeróbica y anaeróbica, y sugiere un entrenamiento semanal personalizado. Los planes varían dependiendo de la edad, nivel de escalada y preferencias del usuario.
 
 ## Funcionalidades
 
