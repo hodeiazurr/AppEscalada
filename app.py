@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-
+from pandas.core.dtypes.inference import is_integer, is_float
 
 class Fuerza():
     def __init__(self, fuerza_agarre=0, fuerza_dedos=0, **kwargs):
@@ -125,19 +125,17 @@ def tabla():
     nivel = []
     preferencia = []
 
+    index = int(input("¿Cuántas personas quieren preparar un entrenamiento? "))
     try:
-        index = int(input("¿Cuántas personas quieren preparar un entrenamiento? "))
-    except ValueError:
-        print("Debe ser un valor numérico")
-        index = 0
+        if is_integer(index) == False and is_float(index) == False:
+            raise ValueError("Debe ser un valor numerico")
+    except ValueError as e:
+        print(e)
 
     for i in range(index):
         nom = input(f"Nombre de la persona {i + 1}: ")
-        try:
-            ed = int(input(f"Edad de la persona {i + 1}: "))
-        except ValueError:
-            print("La edad debe ser un valor numérico")
-            ed = 0
+        ed = int(input(f"Edad de la persona {i + 1}: "))
+        assert ed > 0, "la edad no puede ser un valor negativo"
         niv = input(f"Grado de escalada de la persona {i + 1} (ejemplo: 6b): ")
         pref = input(f"Preferencia de la persona {i + 1} (bulder/escalada deportiva/mixto): ")
 
@@ -165,20 +163,26 @@ def tabla():
 
 
 if __name__ == "__main__":
-    datos = tabla()
-    for j in range(len(datos)):
-        escalada = Escalada(
-            persona=datos['Nombre'][j],
-            edad=datos['Edad'][j],
-            fuerza_dedos=datos['Fuerza_Dedos'][j],
-            fuerza_agarre=datos['Fuerza_Agarre'][j],
-            resistencia_aerobica=datos['Resistencia_Aerobica'][j],
-            resistencia_anaerobica=datos['Resistencia_Anaerobica'][j],
-            nivel=datos['Nivel'][j],
-            preferencia=datos['Preferencia'][j]
-        )
-        if datos['Edad'][j] >= 18:
-            print(f"El entrenamiento para {escalada.persona} sería: {escalada.entrenamiento()} / por semana \n"
-                  f"Fuerza: {escalada.fuerza_total()}, Resistencia: {escalada.resistencia_total()}")
-        else:
-            print(f"En el caso de {escalada.persona}: {escalada.entrenamiento()}")
+
+    try:
+        datos = tabla()
+        for j in range(len(datos)):
+            escalada = Escalada(
+                persona=datos['Nombre'][j],
+                edad=datos['Edad'][j],
+                fuerza_dedos=datos['Fuerza_Dedos'][j],
+                fuerza_agarre=datos['Fuerza_Agarre'][j],
+                resistencia_aerobica=datos['Resistencia_Aerobica'][j],
+                resistencia_anaerobica=datos['Resistencia_Anaerobica'][j],
+                nivel=datos['Nivel'][j],
+                preferencia=datos['Preferencia'][j]
+            )
+
+            if datos['Edad'][j] >= 18:
+                print(f"El entrenamiento para {escalada.persona} sería: {escalada.entrenamiento()} / por semana \n"
+                    f"Fuerza: {escalada.fuerza_total()}, Resistencia: {escalada.resistencia_total()}")
+
+            else:
+                print(f"En el caso de {escalada.persona}: {escalada.entrenamiento()}")
+    except AssertionError as e:
+        print(e)
